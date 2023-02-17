@@ -27,25 +27,15 @@ class MyApp extends StatelessWidget {
 class TodoListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final width=MediaQuery.of(context).size.width;
-    final height=MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     return Scaffold(
         backgroundColor: Colors.grey[300],
         appBar: buildAppBar(),
         body: Column(
           children: [
-            Container(width: width,height: height/15,margin: EdgeInsets.only(left:width/10,right: width/10),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(100),
-              color: Colors.white,
-              
-            ),child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Container(padding:EdgeInsets.only(left: 5,right: 5),child: Icon(Icons.search)),
-                Text('Search')
-              ],
-            ),)
+            SearchBox(context),
+            
           ],
         ));
   }
@@ -66,5 +56,31 @@ class TodoListPage extends StatelessWidget {
         )
       ],
     );
+  }
+  Widget SearchBox(BuildContext context){
+  final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+    return Container(
+              width: width,
+              height: height / 15,
+              margin: EdgeInsets.only(
+                left: width / 20,
+                right: width / 20,
+              ),
+              padding: EdgeInsets.only(left: 10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(100),
+                color: Colors.white,
+              ),
+              child: TextField(
+                decoration: InputDecoration(
+                    icon: Icon(
+                      Icons.search,
+                      color: Colors.black,
+                    ),
+                    border: InputBorder.none,
+                    hintText:'Search'),
+              ),
+            );
   }
 }
