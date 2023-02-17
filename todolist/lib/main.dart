@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
 }
 
 class TodoListPage extends StatelessWidget {
+ TextEditingController _controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -34,8 +36,11 @@ class TodoListPage extends StatelessWidget {
         appBar: buildAppBar(),
         body: Column(
           children: [
-            SearchBox(context),
-            
+            // SearchBox(context),
+            SizedBox(
+              height: 10,
+            ),
+            buildbody(context),
           ],
         ));
   }
@@ -57,30 +62,68 @@ class TodoListPage extends StatelessWidget {
       ],
     );
   }
-  Widget SearchBox(BuildContext context){
-  final width = MediaQuery.of(context).size.width;
+
+  Widget SearchBox(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     return Container(
-              width: width,
-              height: height / 15,
-              margin: EdgeInsets.only(
-                left: width / 20,
-                right: width / 20,
-              ),
-              padding: EdgeInsets.only(left: 10),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(100),
-                color: Colors.white,
-              ),
-              child: TextField(
-                decoration: InputDecoration(
-                    icon: Icon(
-                      Icons.search,
-                      color: Colors.black,
-                    ),
+      width: width,
+      height: height / 15,
+      margin: EdgeInsets.only(
+        left: width / 20,
+        right: width / 20,
+      ),
+      padding: EdgeInsets.only(left: 10),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(100),
+        color: Colors.white,
+      ),
+      child: TextField(
+        decoration: InputDecoration(
+            icon: Icon(
+              Icons.search,
+              color: Colors.black,
+            ),
+            border: InputBorder.none,
+            hintText: 'Search'),
+      ),
+    );
+  }
+
+  Widget buildbody(BuildContext context) {
+
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+    return Row(
+      children: [
+        Expanded(
+            child: Container(
+                width: width,
+                height: height / 15,
+                margin: EdgeInsets.only(left: width / 20, right: width / 20),
+                padding: EdgeInsets.only(left: 10),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(100),
+                  color: Colors.white,
+                ),
+                child: TextField(
+                  controller: _controller,
+                  decoration: InputDecoration(
                     border: InputBorder.none,
-                    hintText:'Search'),
-              ),
-            );
+                  ),
+                ))),
+        TextButton(
+            onPressed: () {
+              addTask();
+            },
+            child: Text(
+              'add task',
+              style: TextStyle(color: Colors.black),
+            ))
+      ],
+    );
+  }
+  void addTask(){
+    FirebaseFirestore.instance.collection('todo').add({'title':_controller.text});
   }
 }
