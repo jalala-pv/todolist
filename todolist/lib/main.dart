@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
 }
 
 class TodoListPage extends StatelessWidget {
- TextEditingController _controller = TextEditingController();
+  TextEditingController _controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -38,7 +38,7 @@ class TodoListPage extends StatelessWidget {
           children: [
             // SearchBox(context),
             SizedBox(
-              height: 10,
+            height: 10,
             ),
             buildbody(context),
           ],
@@ -91,7 +91,6 @@ class TodoListPage extends StatelessWidget {
   }
 
   Widget buildbody(BuildContext context) {
-
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     return Row(
@@ -123,7 +122,10 @@ class TodoListPage extends StatelessWidget {
       ],
     );
   }
-  void addTask(){
-    FirebaseFirestore.instance.collection('todo').add({'title':_controller.text});
+
+  void addTask() {
+    FirebaseFirestore.instance
+        .collection('todo')
+        .add({'title': _controller.text});
   }
 }
