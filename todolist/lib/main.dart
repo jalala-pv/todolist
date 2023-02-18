@@ -33,12 +33,11 @@ class TodoListPage extends StatelessWidget {
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
         backgroundColor: Colors.grey[300],
-        appBar: buildAppBar(),
+        appBar: buildAppBar(context),
         body: Column(
           children: [
-            // SearchBox(context),
             SizedBox(
-              height: height / 10,
+              height: height / 20,
             ),
             buildbody(context),
             StreamBuilder<QuerySnapshot>(
@@ -50,18 +49,20 @@ class TodoListPage extends StatelessWidget {
                   } else {
                     return Expanded(
                       child: Container(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: width / 30, vertical: height / 30),
                         child: ListView(
                           children: snapshot.data!.docs.map((document) {
                             return Column(
                               children: [
                                 Container(
                                   margin: EdgeInsets.symmetric(
-                                      horizontal: 12, vertical: 10),
+                                      horizontal: width / 25,
+                                      vertical: height / 70),
                                   decoration: BoxDecoration(
                                     color: Colors.white,
-                                    borderRadius: BorderRadius.circular(15),
+                                    borderRadius:
+                                        BorderRadius.circular(width / 2),
                                   ),
                                   width: width,
                                   child: ListTile(
@@ -93,48 +94,23 @@ class TodoListPage extends StatelessWidget {
         ));
   }
 
-  AppBar buildAppBar() {
+  AppBar buildAppBar(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     return AppBar(
       elevation: 0,
       backgroundColor: Colors.purple,
       leading: Icon(Icons.menu, color: Colors.black),
       actions: [
         Padding(
-          padding: const EdgeInsets.all(5.0),
+          padding: EdgeInsets.all(width / 50),
           child: Image.asset(
             'assets/avatar.png',
-            width: 40,
-            height: 40,
+            width: width / 10,
+            height: height / 10,
           ),
         )
       ],
-    );
-  }
-
-  Widget SearchBox(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
-    return Container(
-      width: width,
-      height: height / 15,
-      margin: EdgeInsets.only(
-        left: width / 20,
-        right: width / 20,
-      ),
-      padding: EdgeInsets.only(left: 10),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(100),
-        color: Colors.white,
-      ),
-      child: TextField(
-        decoration: InputDecoration(
-            icon: Icon(
-              Icons.search,
-              color: Colors.black,
-            ),
-            border: InputBorder.none,
-            hintText: 'Search'),
-      ),
     );
   }
 
@@ -148,9 +124,9 @@ class TodoListPage extends StatelessWidget {
                 width: width,
                 height: height / 15,
                 margin: EdgeInsets.only(left: width / 20, right: width / 20),
-                padding: EdgeInsets.only(left: 10),
+                padding: EdgeInsets.only(left: width / 10),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(100),
+                  borderRadius: BorderRadius.circular(width / 5),
                   color: Colors.white,
                 ),
                 child: TextField(
