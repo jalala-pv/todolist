@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Firebase.initializeApp();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -32,15 +32,51 @@ class TodoListPage extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
-        backgroundColor: Colors.grey[300],
+        backgroundColor:Colors.grey[900],
         appBar: buildAppBar(),
         body: Column(
           children: [
             // SearchBox(context),
             SizedBox(
-            height: 10,
+              height: 30,
             ),
             buildbody(context),
+            StreamBuilder<QuerySnapshot>(
+                stream:
+                    FirebaseFirestore.instance.collection('todo').snapshots(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return CircularProgressIndicator();
+                  } else {
+                    return Expanded(
+                      child: Container(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                        child: ListView(
+                          children: snapshot.data!.docs.map((document) {
+                            return Column(
+                              children: [
+                                
+                                Container(
+                                  margin: EdgeInsets.symmetric(horizontal: 12,vertical: 10),
+                                  decoration: BoxDecoration(color: Colors.white,
+                                  borderRadius: BorderRadius.circular(15),),
+                                  width: width,
+                                  child: ListTile(
+                                    leading: Icon(Icons.arrow_forward),
+                                    
+                                    title: Text(document['title'],style: TextStyle(fontWeight: FontWeight.bold),),
+                                    trailing: IconButton(onPressed: (){}, icon:Icon(Icons.delete,color: Colors.red,)),
+                                  ),
+                                ),
+                              ],
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                    );
+                  }
+                })
           ],
         ));
   }
@@ -48,7 +84,7 @@ class TodoListPage extends StatelessWidget {
   AppBar buildAppBar() {
     return AppBar(
       elevation: 0,
-      backgroundColor: Colors.grey[300],
+      backgroundColor: Colors.yellow[200],
       leading: Icon(Icons.menu, color: Colors.black),
       actions: [
         Padding(
@@ -108,6 +144,7 @@ class TodoListPage extends StatelessWidget {
                 child: TextField(
                   controller: _controller,
                   decoration: InputDecoration(
+                
                     border: InputBorder.none,
                   ),
                 ))),
@@ -117,7 +154,7 @@ class TodoListPage extends StatelessWidget {
             },
             child: Text(
               'add task',
-              style: TextStyle(color: Colors.black),
+              style: TextStyle(color: Colors.white),
             ))
       ],
     );
