@@ -66,7 +66,7 @@ class TodoListPage extends StatelessWidget {
                                     leading: Icon(Icons.arrow_forward),
                                     
                                     title: Text(document['title'],style: TextStyle(fontWeight: FontWeight.bold),),
-                                    trailing: IconButton(onPressed: (){}, icon:Icon(Icons.delete,color: Colors.red,)),
+                                    trailing: IconButton(onPressed: (){onDelete(document.id);}, icon:Icon(Icons.delete,color: Colors.red,)),
                                   ),
                                 ),
                               ],
@@ -164,5 +164,8 @@ class TodoListPage extends StatelessWidget {
     FirebaseFirestore.instance
         .collection('todo')
         .add({'title': _controller.text});
+  }
+  onDelete(String id){
+    FirebaseFirestore.instance.collection('todo').doc(id).delete();
   }
 }
