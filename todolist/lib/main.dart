@@ -32,13 +32,13 @@ class TodoListPage extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
-        backgroundColor:Colors.grey[900],
+        backgroundColor: Colors.grey[300],
         appBar: buildAppBar(),
         body: Column(
           children: [
             // SearchBox(context),
             SizedBox(
-              height: 30,
+              height: height / 10,
             ),
             buildbody(context),
             StreamBuilder<QuerySnapshot>(
@@ -56,17 +56,29 @@ class TodoListPage extends StatelessWidget {
                           children: snapshot.data!.docs.map((document) {
                             return Column(
                               children: [
-                                
                                 Container(
-                                  margin: EdgeInsets.symmetric(horizontal: 12,vertical: 10),
-                                  decoration: BoxDecoration(color: Colors.white,
-                                  borderRadius: BorderRadius.circular(15),),
+                                  margin: EdgeInsets.symmetric(
+                                      horizontal: 12, vertical: 10),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
                                   width: width,
                                   child: ListTile(
                                     leading: Icon(Icons.arrow_forward),
-                                    
-                                    title: Text(document['title'],style: TextStyle(fontWeight: FontWeight.bold),),
-                                    trailing: IconButton(onPressed: (){onDelete(document.id);}, icon:Icon(Icons.delete,color: Colors.red,)),
+                                    title: Text(
+                                      document['title'],
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    trailing: IconButton(
+                                        onPressed: () {
+                                          onDelete(document.id);
+                                        },
+                                        icon: Icon(
+                                          Icons.delete,
+                                          color: Colors.red,
+                                        )),
                                   ),
                                 ),
                               ],
@@ -84,7 +96,7 @@ class TodoListPage extends StatelessWidget {
   AppBar buildAppBar() {
     return AppBar(
       elevation: 0,
-      backgroundColor: Colors.yellow[200],
+      backgroundColor: Colors.purple,
       leading: Icon(Icons.menu, color: Colors.black),
       actions: [
         Padding(
@@ -144,7 +156,6 @@ class TodoListPage extends StatelessWidget {
                 child: TextField(
                   controller: _controller,
                   decoration: InputDecoration(
-                
                     border: InputBorder.none,
                   ),
                 ))),
@@ -154,7 +165,9 @@ class TodoListPage extends StatelessWidget {
             },
             child: Text(
               'add task',
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(
+                color: Colors.black,
+              ),
             ))
       ],
     );
@@ -165,7 +178,8 @@ class TodoListPage extends StatelessWidget {
         .collection('todo')
         .add({'title': _controller.text});
   }
-  onDelete(String id){
+
+  onDelete(String id) {
     FirebaseFirestore.instance.collection('todo').doc(id).delete();
   }
 }
